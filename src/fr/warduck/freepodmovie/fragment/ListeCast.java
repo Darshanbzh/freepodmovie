@@ -6,12 +6,17 @@ import java.util.List;
 import fr.warduck.freepodmovie.R;
 import fr.warduck.freepodmovie.adapter.CastAdapter;
 import fr.warduck.freepodmovie.metier.Element;
-
+import android.app.DownloadManager;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,6 +32,7 @@ public class ListeCast extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
  		View view = inflater.inflate(R.layout.listecast, container, false);
  		lv = (ListView) view.findViewById(R.id.listviewcast);
+ 		registerForContextMenu(lv);
  		refresh();
         return view;
     }
@@ -51,5 +57,33 @@ public class ListeCast extends Fragment {
 		});
  	}
  	
+ 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+ 		super.onCreateContextMenu(menu, v, menuInfo);
+ 		menu.setHeaderTitle(R.string.contextName);
+ 		menu.add(0, v.getId(), 0, R.string.contextPlayto);
+ 		menu.add(0, v.getId(), 1, R.string.contextDownload);
+ 	}
  	
+ 	public boolean onContextItemSelected(MenuItem item) {
+ 		
+ 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+ 		Element element = (Element) lv.getAdapter().getItem(info.position);
+ 		switch(item.getGroupId()) {
+ 		case 0:
+ 			Intent intent = new Intent(Intent.ACTION_VIEW);
+ 			intent.setClassName("com.bubblesoft.android.bubbleupnp", "com.bubblesoft.android.bubbleupnp.MainTabActivity");
+			intent.setDataAndType(Uri.parse(element.getUrlMedia()), "video/*");
+			startActivity(intent);
+			break;
+ 		case 1:
+ 			DownloadManager.Request r = new DownloadManager.Request(Uri.parse(element.getUrlMedia()));
+ 	 		r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, Uri.parse(element.getUrlMedia()).getLastPathSegment());
+ 	 		r.allowScanningByMediaScanner();
+ 	 		r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+ 	 		DownloadManager dm = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+ 	 		dm.enqueue(r);
+ 			break;
+ 		}
+ 		return true;
+ 	}
 }

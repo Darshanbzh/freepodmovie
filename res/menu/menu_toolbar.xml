@@ -4,4 +4,8 @@
           android:icon="@drawable/ic_menu_add"
           android:title="@string/addFlux"
           android:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/menu_refresh"
+          android:icon="@drawable/ic_menu_refresh"
+          android:title="@string/refreshFlux"
+          android:showAsAction="ifRoom|withText" />
 </menu>

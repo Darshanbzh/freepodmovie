@@ -1,6 +1,12 @@
 package fr.warduck.freepodmovie.activite;
 
+import java.util.List;
+
+import org.orman.mapper.Model;
+
 import fr.warduck.freepodmovie.R;
+import fr.warduck.freepodmovie.metier.Categorie;
+import fr.warduck.freepodmovie.metier.Flux;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
@@ -29,6 +35,15 @@ public class Home extends Activity {
 	    case R.id.menu_add:
 	    	DialogFragment ajouterFlux = DialogueAjouterFlux.newInstance("test");
 	    	ajouterFlux.show(getFragmentManager(), "test");
+	        return true;
+	    case R.id.menu_refresh:
+	    	List<Categorie> categories = Model.fetchAll(Categorie.class);
+	 		for(Categorie cat : categories) {
+	 			List<Flux> fluxx = cat.getFlux();
+	 			for(Flux flux : fluxx) {
+	 				flux.loadElement();
+	 			}
+	 		}
 	        return true;
 	    default:
 	        return super.onOptionsItemSelected(item);

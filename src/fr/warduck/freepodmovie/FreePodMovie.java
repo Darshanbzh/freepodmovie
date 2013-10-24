@@ -14,13 +14,13 @@ public class FreePodMovie extends Application {
 	
 	@Override
     public void onCreate() {
-		MappingSession.getConfiguration().setCreationPolicy(SchemaCreationPolicy.CREATE);
+		//MappingSession.getConfiguration().setCreationPolicy(SchemaCreationPolicy.CREATE);
 		MappingSession.registerEntity(Categorie.class);
 		MappingSession.registerEntity(Flux.class);
         Database db = new SQLiteAndroid(this, "dbfile.db",1);
         MappingSession.registerDatabase(db);
         MappingSession.start();
-        
+        /*
         Categorie jvc = new Categorie();
         jvc.setTitle("Jeuxvideo.com");
         jvc.insert();
@@ -63,7 +63,7 @@ public class FreePodMovie extends Application {
 	    tes.setTitle("Tueur en série");
 	    tes.setCategorie(allo);
 	    tes.setLink("http://rss.allocine.fr/tueursenseries/ipod");
-	    tes.insert();
+	    tes.insert();*/
     }
 	
 	
