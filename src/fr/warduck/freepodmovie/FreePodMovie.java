@@ -59,6 +59,16 @@ public class FreePodMovie extends Application {
 		    tes.setCategorie(allo);
 		    tes.setLink("http://rss.allocine.fr/tueursenseries/ipod");
 		    tes.insert();
+		    
+		    Categorie div = new Categorie();
+		    div.setTitle("Divers");
+		    div.insert();
+		    
+		    Flux you = new Flux();
+		    you.setTitle("Youtube");
+		    you.setCategorie(div);
+		    you.setLink("http://dedie.warduck.fr/youtube/");
+		    you.insert();
         }
     }
 	
