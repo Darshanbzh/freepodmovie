@@ -29,7 +29,7 @@ public class FreePodMovie extends Application {
 	        Flux gl = new Flux();
 	        gl.setTitle("Gaming live");
 	        gl.setCategorie(jvc);
-	        gl.setLink("http://www.jeuxvideo.com/rss/itunes.xml");
+	        gl.setLink("http://www.jeuxvideo.com/rss/itunes-hd.xml");
 	        gl.insert();
 	        
 	        Flux chr = new Flux();
